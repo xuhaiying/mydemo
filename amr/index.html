@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Example</title>
+<script src="js/voice.js"></script>
+</head>
+<body>
+<input type="button" value="play" id="playId"/>
+<input type="button" value="stop" id="stopId"/>
+</body>
+<script type="text/javascript">
+var fetchBinaryString = function(url,callback){
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            //xhr.responseType = 'blob';
+            xhr.responseType = 'arraybuffer';
+            xhr.onload = function() {
+                callback(this.response);
+            };
+            xhr.onerror = function() {
+                alert('Failed to fetch ' + url);
+            };
+            xhr.send();
+        };
+        var url ="https://gistiny.github.io/opencore-amr-js/assets/test.amr";
+fetchBinaryString(url,function (data){
+    var reader = new FileReader();
+            reader.onload = function (e) {
+                var decoder = new AMRDecoder(e.target.result)
+                console.log(e.target.result)
+            };
+            reader.readAsBinaryString(data);
+});
+// (function (){
+//     var util = {
+//         toString: function (blob, fn) {
+
+//             var reader = new FileReader();
+//             reader.onload = function (e) {
+//                 fn(e.target.result);
+//             };
+//             reader.readAsBinaryString(blob);
+//         },
+//         fetchBinaryString: function(url,callback){
+//             var xhr = new XMLHttpRequest();
+//             xhr.open('GET', url);
+//             xhr.responseType = 'blob';
+//             xhr.onload = function() {
+//                 callback(this.response);
+//             };
+//             xhr.onerror = function() {
+//                 alert('Failed to fetch ' + url);
+//             };
+//             xhr.send();
+//         }
+//     }
+     
+//         util.fetchBinaryString(url,function(data){
+//             console.log(data)
+//             util.toString(data,function(result){
+//                 cosole.log(result)
+//             })
+
+//         })
+//     // var URL = window.URL || window.webkitURL;
+//     // console.log(URL)
+//     // var blobURL;
+//     // blobURL = URL.createObjectURL(file);
+//         // var reader = new FileReader();
+//         // console.log(reader)
+//         // reader.readAsDataURL(file);
+//         // reader.onload = function () {
+//         //     console.log(reader.result);
+//         // };
+// })();
+
+//初始化
+RongIMLib.RongIMVoice.init();
+
+//播放
+document.getElementById("playId").onclick = function(){
+　　 // base64Str ： amr 格式的 base64 码，可以用 HTML5 FileReader 或者canvas 进行转换 。 
+　　 var base64Str = data;
+    RongIMLib.RongIMVoice.play(base64Str );
+};
+
+//暂停
+document.getElementById("stopId").onclick = function(){ RongIMLib.RongIMVoice.stop(); }; 
+
+</script> 
+
+</html>
